@@ -1,6 +1,6 @@
 let date = Date.now();
-let timeInput = document.getElementById('comment_input').value
-let countdownMaxInMin = timeInput;
+// let timeInput = document.getElementById('comment_input').value
+let countdownMaxInMin = 20;
 let countdownMaxInSec = countdownMaxInMin * 60;
 let countdownMaxInMS = countdownMaxInSec * 1000;
 
