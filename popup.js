@@ -9,6 +9,7 @@ let timerSubmitForm = document.getElementById("comment_form")
 let timerInput = document.getElementById("time_input")
 let urlInput = document.getElementById("url_input")
 let phoneInput = document.getElementById("phone_input")
+
 timerSubmitForm.addEventListener('submit', (ev) => {
   ev.preventDefault()
   initiateNewBreak(ev, parseInt(timerInput.value), urlInput.value, phoneInput.value)
