@@ -1,0 +1,26 @@
+{
+  "name": "Eye Rest",
+  "version": "1.0",
+  "description": "An extension to rest your eyes every 20 minutes for 20 seconds.",
+  "permissions": ["alarms", "declarativeContent", "storage"],
+  "background": {
+    "scripts": ["helpers.js", "background.js"],
+    "persistent": false
+  },
+  "page_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "20": "images/logo20.png",
+      "32": "images/logo32.png",
+      "48": "images/logo48.png",
+      "150": "images/logo150.png"
+    }
+  },
+  "icons": {
+    "20": "images/logo20.png",
+    "32": "images/logo32.png",
+    "48": "images/logo48.png",
+    "150": "images/logo150.png"
+  },
+  "manifest_version": 2
+}
