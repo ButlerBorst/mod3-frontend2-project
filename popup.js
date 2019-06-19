@@ -1,3 +1,5 @@
+const breakURL = 'http://localhost:3000/api/v1/breaks';
+let userID = 0;
 let counterElement = document.getElementById('counter');
 let switchButton = document.getElementById('switch');
 let switchClasses = switchButton.classList;
@@ -5,12 +7,31 @@ let countdownInterval;
 let count;
 let timerSubmitForm = document.getElementById("comment_form")
 let timerInput = document.getElementById("time_input")
+let urlInput = document.getElementById("url_input")
+let phoneInput = document.getElementById("phone")
 timerSubmitForm.addEventListener('submit', (ev) => {
   ev.preventDefault()
-  clearAndCreateAlarm(parseInt(timerInput.value));
+  initiateNewBreak(ev, parseInt(timerInput.value), urlInput.value, phoneInput.value)
 })
 
-let secToMin = function(timeInSec) {
+function initiateNewBreak(ev, timerLength, urlInput, phoneInput){
+  return fetch(breakURL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({active: true, chosen_url: urlInput, chosen_break_time: timerLength, user_id: userID})
+  })
+  .then(res => res.json())
+  .then(json => {
+    chrome.storage.local.set({'break_id': json.id})
+    alert(`id: ${json.id}`)
+    clearAndCreateAlarm(json.chosen_break_time)
+})
+}
+
+
+let secToMin = function(timeInSec){
   let sec = timeInSec%60;
   let min = (timeInSec-sec)/60;
   if (sec < 10) {
