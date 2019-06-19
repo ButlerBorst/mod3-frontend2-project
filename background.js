@@ -1,5 +1,4 @@
 let date = Date.now();
-// let timeInput = document.getElementById('comment_input').value
 let countdownMaxInMin = 20;
 let countdownMaxInSec = countdownMaxInMin * 60;
 let countdownMaxInMS = countdownMaxInSec * 1000;
@@ -22,7 +21,7 @@ clearAndCreateAlarm(countdownMaxInMin,countdownMaxInMin);
 // Add a listener for when the alarm is up.
 // When the alarm is up, create a window with timer.html.
 chrome.alarms.onAlarm.addListener(function(alarm) {
-  if (alarm.name == 'eyeRestAlarm' + date) {
+  if (alarm.name == 'breakAlarm' + date) {
     let nextAlarmTime = alarm.scheduledTime + countdownMaxInMS;
     chrome.storage.local.set({nextAlarmTime: nextAlarmTime});
 
@@ -38,7 +37,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
   } else {
     chrome.alarms.getAll(function(data) {
       data.forEach(function(alarm) {
-        if (alarm.name != 'eyeRestAlarm' + date) {
+        if (alarm.name != 'breakAlarm' + date) {
           chrome.alarms.clear(alarm.name);
         }
       });
