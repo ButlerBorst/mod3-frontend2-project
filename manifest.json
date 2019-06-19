@@ -1,7 +1,7 @@
 {
-  "name": "Eye Rest",
+  "name": "break alarm",
   "version": "1.0",
-  "description": "An extension to rest your eyes every 20 minutes for 20 seconds.",
+  "description": "Be more productive.",
   "permissions": ["alarms", "declarativeContent", "storage"],
   "background": {
     "scripts": ["helpers.js", "background.js"],
