@@ -1,4 +1,5 @@
 const breakURL = 'http://localhost:3000/api/v1/breaks';
+
 let date = Date.now();
 // let countdownMaxInMin = 20;
 // let countdownMaxInSec = countdownMaxInMin * 60;
@@ -23,13 +24,17 @@ chrome.storage.local.set({
 // When the alarm is up, create a window with timer.html.
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
+    chrome.storage.local.get('redirect_url', function (result) {
       chrome.windows.create({
         type: 'popup',
-        url: 'http://www.espn.go.com',
+        url: result.redirect_url,
         focused: true
       })
+      // let win = window.open(url, result.redirect_url);
+      // win.focus()
       deactivateAlarm()
-});
+    })
+})
 
 function deactivateAlarm(){
 
