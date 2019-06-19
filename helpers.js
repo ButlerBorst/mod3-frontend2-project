@@ -5,7 +5,7 @@ let clearAndCreateAlarm = function(delayInMins) {
       if (alarm) {
         chrome.alarms.clear('breakAlarm' + data.date);
       }
-      chrome.alarms.create('breakAlarm' + data.date, {delayInMinutes: delayInMins});
+      chrome.alarms.create('breakAlarm' + data.date, {delayInMinutes: delayInMins/10});
       chrome.storage.local.set({nextAlarmTime: Date.now()+delayInMS});
     });
   });
