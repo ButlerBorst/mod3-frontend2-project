@@ -24,8 +24,8 @@ function initiateNewBreak(ev, timerLength, urlInput, phoneInput){
   })
   .then(res => res.json())
   .then(json => {
-    chrome.storage.local.set({break_id: json.id})
-    alert(chrome.storage.local.get.arguments)
+    chrome.storage.local.set({'break_id': json.id})
+    alert(`id: ${json.id}`)
     clearAndCreateAlarm(json.chosen_break_time)
 })
 }

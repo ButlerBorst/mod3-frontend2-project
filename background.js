@@ -32,23 +32,24 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 });
 
 function deactivateAlarm(){
-  let break_id = null
 
-  chrome.storage.local.get(['break_id'], function(result) {
-       break_id = result.key;
-       alert(break_id)
-    });
+  let break_id = "";
+  chrome.storage.local.get('break_id', function (result) {
+    break_id = result.break_id;
+    return fetch((breakURL + '/' + break_id), {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({active: false})
+      })
+      .then(res => res.json())
+      .then (json => alert('Success:', JSON.stringify(json)))
+      .catch(error => alert('Error:', error));
+  });
 
-    fetch((breakURL + '/' + break_id), {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({active: false})
-    })
-    .then(res => res.json())
-    .then (json => alert('Success:', JSON.stringify(json)))
-    .catch(error => alert('Error:', error));
+
+
 }
 
 // chrome.alarms.onAlarm.addListener(function(alarm) {
