@@ -3,6 +3,12 @@ let switchButton = document.getElementById('switch');
 let switchClasses = switchButton.classList;
 let countdownInterval;
 let count;
+let timerSubmitForm = document.getElementById("comment_form")
+let timerInput = document.getElementById("time_input")
+timerSubmitForm.addEventListener('submit', (ev) => {
+  ev.preventDefault()
+  clearAndCreateAlarm(parseInt(timerInput.value),parseInt(timerInput.value));
+})
 
 let secToMin = function(timeInSec) {
   let sec = timeInSec%60;
