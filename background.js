@@ -1,7 +1,8 @@
-// const breakURL = 'http://localhost:3000/api/v1/breaks';
-// const accountSid = 'AC90f8b4c917046d37d6af128295b2fe4d';
-// const authToken = 'cb0191398a42c8c5531bbf4157ac32c1';
-// const client = require('twilio')(accountSid, authToken);
+const breakURL = 'http://localhost:3000/api/v1/breaks';
+const accountSid = 'AC90f8b4c917046d37d6af128295b2fe4d';
+const authToken = 'cb0191398a42c8c5531bbf4157ac32c1';
+const client = require('twilio')(accountSid, authToken);
+
 let date = Date.now();
 // let countdownMaxInMin = 20;
 // let countdownMaxInSec = countdownMaxInMin * 60;
@@ -26,14 +27,20 @@ chrome.storage.local.set({
 // When the alarm is up, create a window with timer.html.
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
+    chrome.storage.local.get('redirect_url', function (result) {
       chrome.windows.create({
         type: 'popup',
-        url: 'http://www.espn.go.com',
+        url: result.redirect_url,
         focused: true
       })
+      // let win = window.open(url, result.redirect_url);
+      // win.focus()
       deactivateAlarm()
       // sendMessage()
-});
+
+    })
+})
+
 
 // function sendMessage(){
 //   let message = ""
