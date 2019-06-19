@@ -7,7 +7,7 @@ let timerSubmitForm = document.getElementById("comment_form")
 let timerInput = document.getElementById("time_input")
 timerSubmitForm.addEventListener('submit', (ev) => {
   ev.preventDefault()
-  clearAndCreateAlarm(parseInt(timerInput.value),parseInt(timerInput.value));
+  clearAndCreateAlarm(parseInt(timerInput.value));
 })
 
 let secToMin = function(timeInSec) {
@@ -68,7 +68,7 @@ switchButton.onclick = function() {
     isNotPausedDisplay();
     chrome.storage.local.set({ isPaused: false });
     chrome.storage.local.get(['pausedCount','countdownMaxInMin'], function(data) {
-      clearAndCreateAlarm(data.pausedCount/60, data.countdownMaxInMin);
+      clearAndCreateAlarm(data.pausedCount/60);
     });
     countdownInterval = setInterval(updateCountdown, 100);
   } else {
