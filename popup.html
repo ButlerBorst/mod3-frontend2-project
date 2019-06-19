@@ -2,6 +2,8 @@
 <html>
 
 <head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css?family=Barrio|Roboto:400,600" rel="stylesheet">
   <link href="styles.css" rel="stylesheet">
@@ -40,30 +42,79 @@
 <body class="p1">
   <div class="modal-header">
     <h1 class="logo">
-      <img class="logo-icon" src="images/logo150.png" />Enter Break Time
-      <!-- <span class="time">(00:00)</span> -->
+      <img class="logo-icon" src="images/logo150.png" />User Name
     </h1>
   </div>
   <div class="modal-content">
+    <br>
     <form id="comment_form">
-      <input id="time_input" type="integer" name="comment" placeholder="Enter Break Time (mins)" />
-      <input id="url_input" type="url" name="url" placeholder="https://learn.co" />
-      <input type="tel" id="phone" name="phone" placeholder="3015182893">
+      <div class="form-group row">
+
+        <div class="col-sm-10">
+          <input id="time_input" class="form-control form-control-sm" type="integer" name="comment" placeholder="Enter Break Time (mins)" />
+          <small id="passwordHelpBlock" class="form-text text-muted">
+            Enter time in minutes.
+          </small>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <input id="url_input" class="form-control form-control-sm" type="url" name="url" placeholder="https://learn.co" />
+          <small id="passwordHelpBlock" class="form-text text-muted">
+            Enter valid URL for redirect when timer is up.
+          </small>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <input id="phone_input" class="form-control form-control-sm" type="tell" name="number" placeholder="Enter Number" />
+          <small id="passwordHelpBlock" class="form-text text-muted">
+            Ex: ###-###-#### . Message when time is up.
+          </small>
+        </div>
+      </div>
       <input id="submit" type="submit" value="Submit" />
     </form>
+
+    <!-- second version -->
+    <!-- <form id="comment_form">
+      <div class="row">
+        <div class="col">
+          <input id="time_input" class="form-control" type="integer" name="comment" placeholder="Enter Break Time (mins)" />
+        </div>
+        <div class="col">
+          <input id="url_input" class="form-control" type="url" name="url" placeholder="https://learn.co" />
+        </div>
+        <div class="col">
+          <input id="phone_input" class="form-control" type="tell" name="number" placeholder="Enter Number" />
+        </div>
+        <input id="submit" type="submit" value="Submit" />
+      </div>
+    </form> -->
+
+    <!--1st version -->
+    <!-- <form id="comment_form">
+      <input id="time_input" type="integer" name="comment" placeholder="Enter Break Time (mins)" />
+
+      <input id="url_input" type="text" name="url" placeholder="https://learn.co" />
+      <input id="phone_input" type="tell" name="url" placeholder="Enter Number" />
+      <input id="submit" type="submit" value="Submit" />
+    </form> -->
+    <br>
   </div>
 
   <div class="modal-icons">
     <div class="flex-container">
-      <div class="flex flex--center">
+      <div id="center-bottom" class="flex flex--center">
+
         <div class="pv1ph2 title-box">
-          <h1>Time Left</h1>
+          <h3>Time Left</h3>
         </div>
         <div class="ph2 button-box">
-
-          <p id="counter">&nbsp;</p>
+          <h4 id="counter">&nbsp;</h4>
           <button id="switch" class="is-not-paused">Pause</button>
         </div>
+
       </div>
     </div>
   </div>
