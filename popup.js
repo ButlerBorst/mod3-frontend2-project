@@ -8,7 +8,7 @@ let count;
 let timerSubmitForm = document.getElementById("comment_form")
 let timerInput = document.getElementById("time_input")
 let urlInput = document.getElementById("url_input")
-let phoneInput = document.getElementById("phone")
+let phoneInput = document.getElementById("phone_input")
 timerSubmitForm.addEventListener('submit', (ev) => {
   ev.preventDefault()
   initiateNewBreak(ev, parseInt(timerInput.value), urlInput.value, phoneInput.value)
@@ -20,11 +20,13 @@ function initiateNewBreak(ev, timerLength, urlInput, phoneInput){
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({active: true, chosen_url: urlInput, chosen_break_time: timerLength, user_id: userID})
+    body: JSON.stringify({active: true, chosen_url: urlInput, chosen_break_time: timerLength, user_id: userID, phone_number: phoneInput})
   })
   .then(res => res.json())
   .then(json => {
     chrome.storage.local.set({'break_id': json.id})
+    chrome.storage.local.set({'phone_number': json.phone_number})
+    chrome.storage.local.set({'redirect_url': json.chosen_url})
     alert(`id: ${json.id}`)
     clearAndCreateAlarm(json.chosen_break_time)
 })
