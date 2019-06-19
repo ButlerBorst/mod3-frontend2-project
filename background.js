@@ -1,3 +1,4 @@
+const breakURL = 'http://localhost:3000/api/v1/breaks';
 let date = Date.now();
 // let countdownMaxInMin = 20;
 // let countdownMaxInSec = countdownMaxInMin * 60;
@@ -27,8 +28,28 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
         url: 'http://www.espn.go.com',
         focused: true
       })
-      clearAlarm()
+      deactivateAlarm()
 });
+
+function deactivateAlarm(){
+  let break_id = null
+
+  chrome.storage.local.get(['break_id'], function(result) {
+       break_id = result.key;
+       alert(break_id)
+    });
+
+    fetch((breakURL + '/' + break_id), {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({active: false})
+    })
+    .then(res => res.json())
+    .then (json => alert('Success:', JSON.stringify(json)))
+    .catch(error => alert('Error:', error));
+}
 
 // chrome.alarms.onAlarm.addListener(function(alarm) {
 //   if (alarm.name == 'breakAlarm' + date) {
