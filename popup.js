@@ -37,7 +37,6 @@ function renderCreateProfile(ev){
   })
   newProfileForm.addEventListener("submit", (ev) => {
     ev.preventDefault()
-    setInitialDivClasses(ev)
     submitNewUser(ev, newUserNameInput.value, defaultTime.value, defaultUrlInput.value, defaultPhoneInput.value)
   })
 }
@@ -56,6 +55,7 @@ function submitNewUser(ev, newUserName, defaultTime, defaultUrl, defaultPhone){
     chrome.storage.local.set({'default_phone_number': json.phone_number})
     chrome.storage.local.set({'default_url': json.default_url})
     chrome.storage.local.set({'default_break_time': json.default_break_time})
+    setInitialDivClasses(ev)
 })
 }
 
