@@ -1,6 +1,5 @@
 const breakURL = 'http://localhost:3000/api/v1/breaks';
 const usersURL = 'http://localhost:3000/api/v1/users';
-let userID = 0;
 let counterElement = document.getElementById('counter');
 let countdownInterval;
 let count;
@@ -18,6 +17,7 @@ let phoneInput = document.getElementById("phone_input")
 document.addEventListener("DOMContentLoaded", () => {
   setInitialDivClasses()
   setLoginListeners()
+  addBreakListeners()
 })
 
 function renderCreateProfile(ev){
@@ -66,7 +66,6 @@ function setInitialDivClasses() {
 
 
   chrome.storage.local.get('user_name', function(data) {
-    alert(data.user_name)
     if(data.user_name === null){
       loginDiv.className = "visible"
       newProfileDiv.className = "hidden"
@@ -79,17 +78,6 @@ function setInitialDivClasses() {
       renderBreak()
     }
   })
-  //
-  // if (chrome.alarms.getAll.length > 0){
-  //   loginDiv.className = "hidden"
-  //   newProfileDiv.className = "hidden"
-  //   breakDiv.className = "visible"
-  // }
-  // else {
-  //   loginDiv.className = "visible"
-  //   newProfileDiv.className = "hidden"
-  //   breakDiv.className = "hidden"
-  // }
 }
 
 function setLoginListeners(){
@@ -101,22 +89,28 @@ function setLoginListeners(){
   })
   loginSubmit.addEventListener("click", (ev) => {
     ev.preventDefault()
-    alert('clicked login')
     findUser(userNameInput.value)
   })
 }
 
 function findUser(userName){
-  return fetch(usersURL)
+  fetch(usersURL)
   .then(res => res.json())
   .then(json => {
     json.forEach(function(user){
+      // chrome.storage.local.get('user_name', function(data) {
+      //   alert(data)
+      // });
       if (user['user_name'] === userName){
-        console.log(user)
         chrome.storage.local.set({'user_name': user.user_name})
+        chrome.storage.local.set({'user_id': user.id})
         chrome.storage.local.set({'default_phone_number': user.phone_number})
         chrome.storage.local.set({'default_url': user.default_url})
         chrome.storage.local.set({'default_break_time': user.default_break_time})
+
+        // chrome.storage.local.get('user_name', function(data) {
+        //   alert(`stored local data for: ${data.user_name}`)
+        // });
         renderBreak()
       }
     })
@@ -124,6 +118,10 @@ function findUser(userName){
 }
 
 function renderBreak(){
+  // chrome.storage.local.get('user_id', function(data) {
+  //   alert('in render break and there is')
+  //   alert(`stored local data for: ${data.user_id}`)
+  // });
   const h1 = document.getElementById("set_user_name")
   const loginDiv = document.getElementById("login-div")
   const newProfileDiv = document.getElementById("new-profile-div")
@@ -137,21 +135,40 @@ function renderBreak(){
   chrome.storage.local.get('user_name', function(data) {
     h1.textContent = data.user_name
   });
+}
 
-
+function addBreakListeners(){
   timerSubmitForm.addEventListener('submit', (ev) => {
     ev.preventDefault()
-    alert('clicked timer submit')
-    initiateNewBreak(ev, parseInt(timerInput.value), urlInput.value, phoneInput.value)
+    chrome.storage.local.get('user_id', function(data) {
+    initiateNewBreak(ev, parseInt(timerInput.value), urlInput.value, phoneInput.value, data.user_id)
+    });
   })
 
   logoutLink.addEventListener("click", (ev) => {
+    ev.preventDefault()
+    clearLocalStorage()
     renderLoginPage(ev)
   })
 }
 
+
+function clearLocalStorage(){
+  chrome.storage.local.clear(function() {
+    var error = chrome.runtime.lastError;
+    if (error) {
+        console.error(error);
+    }
+});
+}
+
 function renderLoginPage(ev){
   ev.preventDefault()
+
+  // chrome.storage.local.get('user_name', function(data) {
+  //   alert(data.user_name)
+  // })
+
   const loginDiv = document.getElementById("login-div")
   const newProfileDiv = document.getElementById("new-profile-div")
   const breakDiv = document.getElementById("break-div")
@@ -159,26 +176,24 @@ function renderLoginPage(ev){
   loginDiv.className = "visible"
   newProfileDiv.className = "hidden"
   breakDiv.className = "hidden"
-  setLoginListeners()
+  // setLoginListeners()
 }
 
 
-function initiateNewBreak(ev, timerLength, urlInput, phoneInput){
-  alert('in initiate new break')
+function initiateNewBreak(ev, timerLength, urlInput, phoneInput, user_id){
   ev.preventDefault()
   return fetch(breakURL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({active: true, chosen_url: urlInput, chosen_break_time: timerLength, user_id: userID, phone_number: phoneInput})
+    body: JSON.stringify({active: true, chosen_url: urlInput, chosen_break_time: timerLength, user_id: user_id, phone_number: phoneInput})
   })
   .then(res => res.json())
   .then(json => {
     chrome.storage.local.set({'break_id': json.id})
     chrome.storage.local.set({'phone_number': json.phone_number})
     chrome.storage.local.set({'redirect_url': json.chosen_url})
-    alert('saved break details')
     clearAndCreateAlarm(json.chosen_break_time)
 })
 }
@@ -233,28 +248,3 @@ let isPausedDisplay = function() {
   switchClasses.remove('is-not-paused');
   switchButton.textContent = 'Resume';
 };
-
-// If the switch is set on, continue counting down.
-// If the switch is set to off, clear the existing alarm.
-// switchButton.onclick = function() {
-//   if (!switchClasses.contains('is-not-paused')) {
-//     // If isPaused = false, create the new alarm here.
-//     isNotPausedDisplay();
-//     chrome.storage.local.set({ isPaused: false });
-//     chrome.storage.local.get(['pausedCount','countdownMaxInMin'], function(data) {
-//       clearAndCreateAlarm(data.pausedCount/60);
-//     });
-//     countdownInterval = setInterval(updateCountdown, 100);
-//   } else {
-//     // If isPaused = true, store the existing count to pass back to
-//     // background.js, clear the existing alarm by using the date
-//     // in storage.
-//     isPausedDisplay();
-//     chrome.storage.local.set({
-//       isPaused: true,
-//       pausedCount: count
-//     });
-//     clearInterval(countdownInterval);
-//     clearAlarm();
-//   }
-// }
