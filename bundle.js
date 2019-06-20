@@ -17,7 +17,7 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
 });
 
 chrome.storage.local.set({
-  date: date,
+  date: date
   isPaused: false,
   // countdownMaxInMin: countdownMaxInMin
 });
