@@ -97,10 +97,11 @@ html,
         display:none;
       }
 
-      .form-group a{
+      .modal-content a{
         font-size: .8em;
         color: blue;
       }
+
 
       /* #counter {
         margin: 0 0 0.5em;
