@@ -1,14 +1,47 @@
 const breakURL = 'http://localhost:3000/api/v1/breaks';
+const usersURL = 'http://localhost:3000/api/v1/users';
 let userID = 0;
 let counterElement = document.getElementById('counter');
 let switchButton = document.getElementById('switch');
 let switchClasses = switchButton.classList;
 let countdownInterval;
 let count;
+let newUserSubmitform = document.getElementById('new_profile_form')
+let newUserNameInput = document.getElementById('new_user_name')
+let defaultTime = document.getElementById('new_time')
+let defaultUrlInput = document.getElementById('new_url')
+let defaultPhoneInput = document.getElementById('new_phone')
+
 let timerSubmitForm = document.getElementById("comment_form")
 let timerInput = document.getElementById("time_input")
 let urlInput = document.getElementById("url_input")
 let phoneInput = document.getElementById("phone_input")
+
+newUserSubmitform.addEventListener('submit', ev => {
+  console.log('inside submit button')
+  ev.preventDefault()
+  submitNewUser(ev, newUserNameInput.value, defaultTime.value, defaultUrlInput.value, defaultPhoneInput.value)
+})
+
+function submitNewUser(ev, newUserName, defaultTime, defaultUrl, defaultPhone){
+  return fetch(usersURL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({user_name: newUserName, default_break_time: defaultTime, default_url: defaultUrl, phone_number: defaultPhone})
+  })
+  .then(res => res.json())
+  .then(json => {
+    chrome.storage.local.set({'user_name': json.user_name})
+    chrome.storage.local.set({'default_phone_number': json.phone_number})
+    chrome.storage.local.set({'default_url': json.default_url})
+    chrome.storage.local.set({'default_break_time': json.default_break_time})
+    alert(`inside post to users`)
+
+})
+}
+
 
 timerSubmitForm.addEventListener('submit', (ev) => {
   ev.preventDefault()
