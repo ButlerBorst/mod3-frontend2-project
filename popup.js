@@ -8,6 +8,8 @@ let newUserNameInput = document.getElementById('new_user_name')
 let defaultTime = document.getElementById('new_time')
 let defaultUrlInput = document.getElementById('new_url')
 let defaultPhoneInput = document.getElementById('new_phone')
+let switchButton = document.getElementById('switch');
+let switchClasses = switchButton.classList;
 
 let timerSubmitForm = document.getElementById("comment_form")
 let timerInput = document.getElementById("time_input")
@@ -66,7 +68,7 @@ function setInitialDivClasses() {
 
 
   chrome.storage.local.get('user_name', function(data) {
-    if(data.user_name === null){
+    if(data.user_name === undefined){
       loginDiv.className = "visible"
       newProfileDiv.className = "hidden"
       breakDiv.className = "hidden"
@@ -248,3 +250,28 @@ let isPausedDisplay = function() {
   switchClasses.remove('is-not-paused');
   switchButton.textContent = 'Resume';
 };
+
+// If the switch is set on, continue counting down.
+// If the switch is set to off, clear the existing alarm.
+switchButton.onclick = function() {
+  if (!switchClasses.contains('is-not-paused')) {
+    // If isPaused = false, create the new alarm here.
+    isNotPausedDisplay();
+    chrome.storage.local.set({ isPaused: false });
+    chrome.storage.local.get(['pausedCount','countdownMaxInMin'], function(data) {
+      clearAndCreateAlarm(data.pausedCount/60);
+    });
+    countdownInterval = setInterval(updateCountdown, 100);
+  } else {
+    // If isPaused = true, store the existing count to pass back to
+    // background.js, clear the existing alarm by using the date
+    // in storage.
+    isPausedDisplay();
+    chrome.storage.local.set({
+      isPaused: true,
+      pausedCount: count
+    });
+    clearInterval(countdownInterval);
+    clearAlarm();
+  }
+}
