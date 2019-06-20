@@ -41,7 +41,10 @@
 
 
 <body class="p1">
+
+
   <div id = "login-div">
+
     <div class="modal-header">
       <h1 class="logo">
         <img class="logo-icon" src="images/logo150.png" />Log In
@@ -74,9 +77,17 @@
         <div class="form-group row">
 
           <div class="col-sm-10">
-            <input id="new_user_name" class="form-control" type="integer" name="new_user" placeholder="New User Name" />
+            <input id="new_user_name" class="form-control" type="text" name="new_user" placeholder="New User Name" />
             <small id="user_name_help" class="form-text text-muted">
               Enter a new user name.
+            </small>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <input id="new_time" class="form-control" type="integer" name="default_timer" placeholder="Default Break Time" />
+            <small id="newPasswordHelpBlock" class="form-text text-muted">
+              Enter a default break time.
             </small>
           </div>
         </div>
@@ -103,14 +114,16 @@
     <div class="modal-icons">
     </div>
   </div>
+
   <div id = "break-div">
   <div class="modal-header">
-    <h1 class="logo">
+    <h1 id="set_user_name" class="logo">
       <img class="logo-icon" src="images/logo150.png" />User Name
     </h1>
   </div>
   <div class="modal-content">
     <br>
+
     <form id="comment_form">
       <div class="form-group row">
 
