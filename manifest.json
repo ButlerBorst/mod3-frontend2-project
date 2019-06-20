@@ -2,7 +2,7 @@
   "name": "break alarm",
   "version": "1.0",
   "description": "Be more productive.",
-  "permissions": ["alarms", "declarativeContent", "storage"],
+  "permissions": ["alarms", "declarativeContent", "storage", "<all_urls>"],
   "background": {
     "scripts": ["helpers.js", "background.js"],
     "persistent": false
