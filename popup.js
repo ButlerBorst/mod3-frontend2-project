@@ -42,6 +42,83 @@ function submitNewUser(ev, newUserName, defaultTime, defaultUrl, defaultPhone){
 })
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  setInitialDivClasses()
+  setLoginListeners()
+})
+
+function setInitialDivClasses() {
+  const loginDiv = document.getElementById("login-div")
+  const newProfileDiv = document.getElementById("new-profile-div")
+  const breakDiv = document.getElementById("break-div")
+
+
+  loginDiv.className = "visible"
+  newProfileDiv.className = "hidden"
+  breakDiv.className = "hidden"
+
+}
+
+function setLoginListeners(){
+  const newProfileLink = document.getElementById("new-profile-link")
+  const loginSubmit = document.getElementById("loginSubmit")
+  newProfileLink.addEventListener("click", (ev) => {
+    renderCreateProfile(ev)
+  })
+  loginSubmit.addEventListener("click", (ev) => {
+    renderBreak(ev)
+  })
+}
+
+function renderBreak(ev){
+  ev.preventDefault()
+  const loginDiv = document.getElementById("login-div")
+  const newProfileDiv = document.getElementById("new-profile-div")
+  const breakDiv = document.getElementById("break-div")
+  const logoutLink = document.getElementById("logoutLink")
+
+  loginDiv.className = "hidden"
+  newProfileDiv.className = "hidden"
+  breakDiv.className = "visible"
+
+  logoutLink.addEventListener("click", (ev) => {
+    renderLoginPage(ev)
+  })
+}
+
+function renderCreateProfile(ev){
+  ev.preventDefault()
+  const loginDiv = document.getElementById("login-div")
+  const newProfileDiv = document.getElementById("new-profile-div")
+  const breakDiv = document.getElementById("break-div")
+  const backToLoginLink = document.getElementById("return-to-login")
+  const newProfileForm = document.getElementById("new_profile_form")
+
+  loginDiv.className = "hidden"
+  newProfileDiv.className = "visible"
+  breakDiv.className = "hidden"
+  backToLoginLink.addEventListener("click", (ev) => {
+    setInitialDivClasses(ev)
+  })
+  newProfileForm.addEventListener("submit", (ev) => {
+    setInitialDivClasses(ev)
+  })
+
+}
+
+function renderLoginPage(ev){
+  ev.preventDefault()
+  const loginDiv = document.getElementById("login-div")
+  const newProfileDiv = document.getElementById("new-profile-div")
+  const breakDiv = document.getElementById("break-div")
+
+  loginDiv.className = "visible"
+  newProfileDiv.className = "hidden"
+  breakDiv.className = "hidden"
+  setLoginListeners()
+}
+
+function login(){
 
 timerSubmitForm.addEventListener('submit', (ev) => {
   ev.preventDefault()
@@ -61,7 +138,6 @@ function initiateNewBreak(ev, timerLength, urlInput, phoneInput){
     chrome.storage.local.set({'break_id': json.id})
     chrome.storage.local.set({'phone_number': json.phone_number})
     chrome.storage.local.set({'redirect_url': json.chosen_url})
-    alert(`id: ${json.id}`)
     clearAndCreateAlarm(json.chosen_break_time)
 })
 }
