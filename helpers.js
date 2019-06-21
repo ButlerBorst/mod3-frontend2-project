@@ -13,6 +13,7 @@ let clearAndCreateAlarm = function(delayInMins) {
 
 let clearAlarm = function() {
   chrome.storage.local.get('date', function(data) {
-    chrome.alarms.clear('breakAlarm' + data.date);
+    // chrome.alarms.clear('breakAlarm' + data.date);
+    chrome.alarms.clearAll()
   });
 }
