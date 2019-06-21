@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setInitialDivClasses()
   setLoginListeners()
   addBreakListeners()
-  // isNotPausedDisplay()
 })
 
 function renderCreateProfile(ev){
@@ -123,6 +122,7 @@ function findUser(userName){
         // chrome.storage.local.get('user_name', function(data) {
         //   alert(`stored local data for: ${data.user_name}`)
         // });
+        isNotPausedDisplay()
         renderBreak()
       }
     })
@@ -130,10 +130,6 @@ function findUser(userName){
 }
 
 function renderBreak(){
-  // chrome.storage.local.get('user_id', function(data) {
-  //   alert('in render break and there is')
-  //   alert(`stored local data for: ${data.user_id}`)
-  // });
   const h1 = document.getElementById("set_user_name")
   const loginDiv = document.getElementById("login-div")
   const newProfileDiv = document.getElementById("new-profile-div")
@@ -144,11 +140,36 @@ function renderBreak(){
   newProfileDiv.className = "hidden"
   breakDiv.className = "visible"
 
-  chrome.storage.local.get(['user_name', 'phone_number', 'redirect_url', 'break_time'], function(data) {
+  // chrome.storage.local.get('isPaused', function(data) {
+  //   if (!data.isPaused) {
+  //     updateCountdown();
+  //     countdownInterval = setInterval(updateCountdown, 100);
+  //     isNotPausedDisplay();
+  //   } else {
+  //     chrome.storage.local.get('pausedCount', function(data) {
+  //       counterElement.innerHTML = secToMin(data.pausedCount);
+  //     });
+  //     isPausedDisplay();
+  //   }
+  // });
+
+
+  chrome.storage.local.get(['user_name', 'phone_number', 'redirect_url', 'break_time', 'isPaused'], function(data) {
     h1.textContent = data.user_name
     timerInput.value = data.break_time
     urlInput.value = data.redirect_url
     phoneInput.value = data.phone_number
+
+    if (!data.isPaused) {
+      updateCountdown();
+      countdownInterval = setInterval(updateCountdown, 100);
+      isNotPausedDisplay();
+    } else {
+      chrome.storage.local.get('pausedCount', function(data) {
+        counterElement.innerHTML = secToMin(data.pausedCount);
+      });
+      isPausedDisplay();
+    }
   });
 }
 
@@ -157,6 +178,7 @@ function addBreakListeners(){
     ev.preventDefault()
     chrome.storage.local.get('user_id', function(data) {
     initiateNewBreak(ev, parseInt(timerInput.value), urlInput.value, phoneInput.value, data.user_id)
+    updateCountdown()
     });
   })
 
@@ -250,18 +272,18 @@ let updateCountdown = function() {
 // Check if isPaused. If not,
 // Call the update countdown function immediately
 // Then update the countdown every 0.1s
-chrome.storage.local.get('isPaused', function(data) {
-  if (!data.isPaused) {
-    updateCountdown();
-    countdownInterval = setInterval(updateCountdown, 100);
-    isNotPausedDisplay();
-  } else {
-    chrome.storage.local.get('pausedCount', function(data) {
-      counterElement.innerHTML = secToMin(data.pausedCount);
-    });
-    isPausedDisplay();
-  }
-});
+// chrome.storage.local.get('isPaused', function(data) {
+//   if (!data.isPaused) {
+//     updateCountdown();
+//     countdownInterval = setInterval(updateCountdown, 100);
+//     isNotPausedDisplay();
+//   } else {
+//     chrome.storage.local.get('pausedCount', function(data) {
+//       counterElement.innerHTML = secToMin(data.pausedCount);
+//     });
+//     isPausedDisplay();
+//   }
+// });
 
 let isNotPausedDisplay = function() {
   switchClasses.add('is-not-paused');

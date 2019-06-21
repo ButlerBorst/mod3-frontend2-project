@@ -1,7 +1,4 @@
 const breakURL = 'http://localhost:3000/api/v1/breaks';
-// const accountSid = 'AC90f8b4c917046d37d6af128295b2fe4d';
-// const authToken = 'cb0191398a42c8c5531bbf4157ac32c1';
-// const client = require('twilio')(accountSid, authToken);
 
 let date = Date.now();
 // let countdownMaxInMin = 20;
