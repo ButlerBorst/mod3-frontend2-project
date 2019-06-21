@@ -70,7 +70,6 @@ function setInitialDivClasses() {
 
 
   chrome.storage.local.get('user_name', function(data) {
-    alert(`new user: ${data.user_name}`)
     if(data.user_name === undefined){
       loginDiv.className = "visible"
       newProfileDiv.className = "hidden"
@@ -152,7 +151,6 @@ function addBreakListeners(){
   timerSubmitForm.addEventListener('submit', (ev) => {
     ev.preventDefault()
     chrome.storage.local.get('user_id', function(data) {
-      alert(data.user_id)
     initiateNewBreak(ev, parseInt(timerInput.value), urlInput.value, phoneInput.value, data.user_id)
     });
   })
@@ -160,6 +158,9 @@ function addBreakListeners(){
   logoutLink.addEventListener("click", (ev) => {
     ev.preventDefault()
     clearLocalStorage()
+    alert(chrome.alarms.getAll.length)
+    chrome.storage.local.set({'isPaused': false})
+    clearAlarm()
     renderLoginPage(ev)
   })
 }
