@@ -55,13 +55,19 @@ html,
       img {
         width: 30px;
       }
-=
+
+      .btn-outline-primary {
+        color: #00aae2;
+        border-color: #00aae2;
+      }
+
 
       .modal-header {
-        padding: 10px 10px;
+        padding: 0px 10px;
         position: center;
         align-items: center;
         align-self: center;
+        min-height: 75px;
 
         /* margin: 0 auto; */
         border-bottom: 0.5px solid #dadada;
@@ -74,7 +80,7 @@ html,
         color: #00aae2!important;
       }
       .modal-content {
-        padding: 0 10px;
+        padding: 10px 10px;
       }
       .modal-icons {
         border-top: 0.5px solid #dadada;
@@ -85,8 +91,10 @@ html,
         padding-bottom: 0px;
       }
       .logo-icon {
+        padding-bottom: 4px;
         display: block;
         margin-left: auto;
+        margin-right: 5px;
 
       }
       .version {
@@ -117,6 +125,38 @@ html,
       .modal-content a{
         font-size: .8em;
         color: blue;
+      }
+
+      #new-profile-link {
+        padding-left: 2px;
+      }
+
+      #passwordHelpBlock {
+        padding-left: 3px;
+      }
+
+      #newPasswordHelpBlock {
+        padding-left: 3px;
+      }
+
+      #newPhoneHelpBlock {
+        padding-left: 3px;
+      }
+
+      #user_name_help {
+        padding-left: 3px;
+      }
+
+      #return-to-login {
+        float: right;
+      }
+
+      #logoutLink {
+        float: right;
+      }
+
+      #new-profile-link {
+        float: right;
       }
 
 
