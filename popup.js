@@ -55,9 +55,9 @@ function submitNewUser(ev, newUserName, defaultTime, defaultUrl, defaultPhone){
   .then(json => {
     chrome.storage.local.set({'user_id': json.user_id})
     chrome.storage.local.set({'user_name': json.user_name})
-    chrome.storage.local.set({'default_phone_number': json.phone_number})
-    chrome.storage.local.set({'default_url': json.default_url})
-    chrome.storage.local.set({'default_break_time': json.default_break_time})
+    chrome.storage.local.set({'phone_number': json.phone_number})
+    chrome.storage.local.set({'redirect_url': json.default_url})
+    chrome.storage.local.set({'break_time': json.default_break_time})
     setInitialDivClasses(ev)
     findUser(json.user_name)
 })
@@ -109,9 +109,9 @@ function findUser(userName){
       if (user['user_name'] === userName){
         chrome.storage.local.set({'user_name': user.user_name})
         chrome.storage.local.set({'user_id': user.id})
-        chrome.storage.local.set({'default_phone_number': user.phone_number})
-        chrome.storage.local.set({'default_url': user.default_url})
-        chrome.storage.local.set({'default_break_time': user.default_break_time})
+        chrome.storage.local.set({'phone_number': user.phone_number})
+        chrome.storage.local.set({'redirect_url': user.default_url})
+        chrome.storage.local.set({'break_time': user.default_break_time})
 
         // chrome.storage.local.get('user_name', function(data) {
         //   alert(`stored local data for: ${data.user_name}`)
@@ -137,8 +137,14 @@ function renderBreak(){
   newProfileDiv.className = "hidden"
   breakDiv.className = "visible"
 
-  chrome.storage.local.get('user_name', function(data) {
+
+
+
+  chrome.storage.local.get(['user_name', 'phone_number', 'redirect_url', 'break_time'], function(data) {
     h1.textContent = data.user_name
+    timerInput.value = data.break_time
+    urlInput.value = data.redirect_url
+    phoneInput.value = data.phone_number
   });
 }
 
