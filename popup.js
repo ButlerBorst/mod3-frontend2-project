@@ -10,6 +10,7 @@ let defaultUrlInput = document.getElementById('new_url')
 let defaultPhoneInput = document.getElementById('new_phone')
 let switchButton = document.getElementById('switch');
 let switchClasses = switchButton.classList;
+let addH4Div = document.getElementById('addH4Div')
 
 let timerSubmitForm = document.getElementById("comment_form")
 let timerInput = document.getElementById("time_input")
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setInitialDivClasses()
   setLoginListeners()
   addBreakListeners()
+  // isNotPausedDisplay()
 })
 
 function renderCreateProfile(ev){
@@ -68,6 +70,12 @@ function setInitialDivClasses() {
   const newProfileDiv = document.getElementById("new-profile-div")
   const breakDiv = document.getElementById("break-div")
 
+
+  // chrome.storage.local.set({'initial_count': 2})
+  //
+  // chrome.storage.local.get('initial_count', function(data) {
+  //   counterElement.value = data.initial_count
+  // })
 
   chrome.storage.local.get('user_name', function(data) {
     if(data.user_name === undefined){
@@ -136,9 +144,6 @@ function renderBreak(){
   newProfileDiv.className = "hidden"
   breakDiv.className = "visible"
 
-
-
-
   chrome.storage.local.get(['user_name', 'phone_number', 'redirect_url', 'break_time'], function(data) {
     h1.textContent = data.user_name
     timerInput.value = data.break_time
@@ -158,9 +163,9 @@ function addBreakListeners(){
   logoutLink.addEventListener("click", (ev) => {
     ev.preventDefault()
     clearLocalStorage()
-    alert(chrome.alarms.getAll.length)
+    counterElement.textContent = ""
     chrome.storage.local.set({'isPaused': false})
-    clearAlarm()
+    // clearAlarm()
     renderLoginPage(ev)
   })
 }
@@ -186,6 +191,7 @@ function renderLoginPage(ev){
   const newProfileDiv = document.getElementById("new-profile-div")
   const breakDiv = document.getElementById("break-div")
 
+  counterElement.textContent = ""
   loginDiv.className = "visible"
   newProfileDiv.className = "hidden"
   breakDiv.className = "hidden"
@@ -207,8 +213,11 @@ function initiateNewBreak(ev, timerLength, urlInput, phoneInput, user_id){
     chrome.storage.local.set({'break_id': json.id})
     chrome.storage.local.set({'phone_number': json.phone_number})
     chrome.storage.local.set({'redirect_url': json.chosen_url})
+    chrome.storage.local.set({'break_time': json.chosen_break_time})
     clearAndCreateAlarm(json.chosen_break_time)
+    updateCountdown()
 })
+
 }
 
 
@@ -224,14 +233,18 @@ let secToMin = function(timeInSec){
 // This will get the next alarm time from storage,
 // calculate that time minus the current time,
 // convert to seconds, then set the popup to that time.
+
 let updateCountdown = function() {
   chrome.storage.local.get('nextAlarmTime', function(data) {
     // This sort of prevents the race condition by choosing between
     // 0 and the actual count. We basically want to prevent the popup
     // from ever displaying a negative number.
+    if(data.nextAlarmTime){
     count = Math.max(0, Math.ceil((data.nextAlarmTime - Date.now())/1000));
     counterElement.textContent = secToMin(count);
+    }
   });
+
 };
 
 // Check if isPaused. If not,
