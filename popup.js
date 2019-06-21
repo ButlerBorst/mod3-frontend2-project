@@ -130,10 +130,6 @@ function findUser(userName){
 }
 
 function renderBreak(){
-  // chrome.storage.local.get('user_id', function(data) {
-  //   alert('in render break and there is')
-  //   alert(`stored local data for: ${data.user_id}`)
-  // });
   const h1 = document.getElementById("set_user_name")
   const loginDiv = document.getElementById("login-div")
   const newProfileDiv = document.getElementById("new-profile-div")
@@ -155,6 +151,7 @@ function renderBreak(){
 function addBreakListeners(){
   timerSubmitForm.addEventListener('submit', (ev) => {
     ev.preventDefault()
+    alert('in event listener')
     chrome.storage.local.get('user_id', function(data) {
     initiateNewBreak(ev, parseInt(timerInput.value), urlInput.value, phoneInput.value, data.user_id)
     });
@@ -296,6 +293,7 @@ switchButton.onclick = function() {
       pausedCount: count
     });
     clearInterval(countdownInterval);
+    alert('trying to clear alarm')
     clearAlarm();
   }
 }

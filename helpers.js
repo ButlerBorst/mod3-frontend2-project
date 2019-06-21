@@ -1,4 +1,5 @@
 let clearAndCreateAlarm = function(delayInMins) {
+  alert('in clear and create')
   let delayInMS = delayInMins * 60000;
   chrome.storage.local.get('date', function(data) {
     chrome.alarms.get('breakAlarm' + data.date, function(alarm) {
