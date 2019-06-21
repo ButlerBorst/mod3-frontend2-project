@@ -45,9 +45,10 @@
 
   <div id = "login-div">
 
-    <div class="modal-header">
+    <div class="modal-header" id="login-header">
+      <img class="logo-icon" src="images/logo150.png" />
       <h1 class="logo">
-        <img class="logo-icon" src="images/logo150.png" />Log In
+        Log In
       </h1>
     </div>
     <div class="modal-content">
@@ -63,12 +64,15 @@
         <input id="loginSubmit" type="submit" value="Log In" />
       </form>
     </div>
+    <div class="modal-icons">
+    </div>
   </div>
 
   <div id = "new-profile-div">
-    <div class="modal-header">
+    <div class="modal-header" id="profile-header">
+      <img class="logo-icon" src="images/logo150.png" />
       <h1 class="logo">
-        <img class="logo-icon" src="images/logo150.png" />Create Profile
+        Create Profile
       </h1>
     </div>
     <div class="modal-content">
@@ -116,15 +120,17 @@
   </div>
 
 <div id = "break-div">
-  <div class="modal-header">
+
+  <div class="modal-header" id="break-header">
     <img class="logo-icon" src="images/logo150.png"/>
-    <h1 id="set_user_name" class="logo">
+    <h1 id="set_user_name" class="">
        User Name
     </h1>
+
   </div>
+
   <div class="modal-content">
     <br>
-
     <form id="comment_form">
       <div class="form-group row">
 
@@ -160,15 +166,12 @@
   <div class="modal-icons">
     <div class="flex-container">
       <div id="center-bottom" class="flex flex--center">
-
         <div class="pv1ph2 title-box">
           <h3>Time Left</h3>
-        </div>
         <div id = "addH4Div" class="ph2 button-box">
           <h4 id="counter"></h4>
           <button id="switch" class="is-not-paused">Pause</button>
         </div>
-
       </div>
     </div>
   </div>
