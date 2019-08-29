@@ -1,4 +1,7 @@
+console.log('in script')
+
 var InputMask = function ( opts ) {
+  console.log('in InputMask')
   if ( opts && opts.masked ) {
     // Make it easy to wrap this plugin and pass elements instead of a selector
     opts.masked = typeof opts.masked === string ? document.querySelectorAll( opts.masked ) : opts.masked;
