@@ -1,8 +1,4 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-// const breakURL = 'http://localhost:3000/api/v1/breaks';
-// const accountSid = 'AC90f8b4c917046d37d6af128295b2fe4d';
-// const authToken = 'cb0191398a42c8c5531bbf4157ac32c1';
-// const client = require('twilio')(accountSid, authToken);
 
 let date = Date.now();
 // let countdownMaxInMin = 20;
@@ -71,7 +67,7 @@ function deactivateAlarm(){
       })
       .then(res => res.json())
       .then (json => alert('Success:', JSON.stringify(json)))
-      .catch(error => alert('Error:', error));
+      .catch(error => alert('Error in deactivate:', error));
   });
 
 

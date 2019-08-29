@@ -1,5 +1,9 @@
 const breakURL = 'https://hidden-headland-23045.herokuapp.com/api/v1/breaks';
 const usersURL = 'https://hidden-headland-23045.herokuapp.com/api/v1/users';
+
+// const breakURL = 'http://localhost:3000/api/v1/breaks';
+// const usersURL = 'http://localhost:3000/api/v1/users';
+
 let counterElement = document.getElementById('counter');
 let countdownInterval;
 let count;
@@ -118,11 +122,12 @@ function findUser(userName){
         chrome.storage.local.set({'phone_number': user.phone_number})
         chrome.storage.local.set({'redirect_url': user.default_url})
         chrome.storage.local.set({'break_time': user.default_break_time})
+        chrome.storage.local.set({ isPaused: false });
 
         // chrome.storage.local.get('user_name', function(data) {
         //   alert(`stored local data for: ${data.user_name}`)
         // });
-        isNotPausedDisplay()
+        // isNotPausedDisplay()
         renderBreak()
       }
     })
@@ -139,19 +144,6 @@ function renderBreak(){
   loginDiv.className = "hidden"
   newProfileDiv.className = "hidden"
   breakDiv.className = "visible"
-
-  // chrome.storage.local.get('isPaused', function(data) {
-  //   if (!data.isPaused) {
-  //     updateCountdown();
-  //     countdownInterval = setInterval(updateCountdown, 100);
-  //     isNotPausedDisplay();
-  //   } else {
-  //     chrome.storage.local.get('pausedCount', function(data) {
-  //       counterElement.innerHTML = secToMin(data.pausedCount);
-  //     });
-  //     isPausedDisplay();
-  //   }
-  // });
 
 
   chrome.storage.local.get(['user_name', 'phone_number', 'redirect_url', 'break_time', 'isPaused'], function(data) {
@@ -199,7 +191,7 @@ function clearLocalStorage(){
     if (error) {
         console.error(error);
     }
-});
+})
 }
 
 function renderLoginPage(ev){
@@ -297,6 +289,21 @@ let isPausedDisplay = function() {
   switchButton.textContent = 'Resume';
 };
 
+// chrome.storage.local.get('isPaused', function(data) {
+//
+//   if (!data.isPaused) {
+//     alert('data not paused')
+//     updateCountdown();
+//     countdownInterval = setInterval(updateCountdown, 100);
+//     isNotPausedDisplay();
+//   } else {
+//     chrome.storage.local.get('pausedCount', function(data) {
+//       counterElement.innerHTML = secToMin(data.pausedCount);
+//     });
+//     isPausedDisplay();
+//   }
+// });
+
 // If the switch is set on, continue counting down.
 // If the switch is set to off, clear the existing alarm.
 switchButton.onclick = function() {
@@ -320,4 +327,5 @@ switchButton.onclick = function() {
     clearInterval(countdownInterval);
     clearAlarm();
   }
+
 }
