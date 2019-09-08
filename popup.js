@@ -1,5 +1,8 @@
 const breakURL = 'https://hidden-headland-23045.herokuapp.com/api/v1/breaks';
+// const breakURL =  'http://localhost:3000/api/v1/breaks'
 const usersURL = 'https://hidden-headland-23045.herokuapp.com/api/v1/users';
+// const usersURL =  'http://localhost:3000/api/v1/users'
+
 let counterElement = document.getElementById('counter');
 let countdownInterval;
 let count;
